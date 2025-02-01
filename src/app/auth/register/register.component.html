@@ -1,0 +1,60 @@
+<section class="vh-100 bg-image"
+  style="background-image: url('https://img.freepik.com/psd-gratuit/interieur-du-cabinet-medical-moderne-lieu-travail-du-medecin-generative-ai_587448-2039.jpg'); background-repeat: no-repeat; background-size: cover;">
+  <div class="mask d-flex align-items-center h-70 gradient-custom-3">
+    <div class="container h-70">
+      <div class="row d-flex justify-content-center align-items-center h-70">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Créer un Compte</h2>
+
+              <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="text" id="form3Example1cg" name="nom" [(ngModel)]="user.nom" class="form-control form-control-lg" required/>
+                  <label class="form-label" for="form3Example1cg">Nom</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="text" id="form3Example1cg" name="prenom" [(ngModel)] ="user.prenom" class="form-control form-control-lg" required/>
+                  <label class="form-label" for="form3Example1cg">Prenom</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="text" id="form3Example3cg" name="login" [(ngModel)]="user.login" class="form-control form-control-lg" required/>
+                  <label class="form-label" for="form3Example3cg">Login</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="password" id="form3Example4cg" name="password" [(ngModel)]="user.password" class="form-control form-control-lg" required/>
+                  <label class="form-label" for="form3Example4cg">Password</label>
+                </div>
+
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <label>Rôle :</label>
+                  <select [(ngModel)]="user.role" name="role" required>
+                    <option value="admin">Admin</option>
+                    <option value="secretaire">Secrétaire</option>
+                  </select>
+                </div>
+
+                <p *ngIf="message">{{ message }}</p>
+
+
+                <div class="d-flex justify-content-center">
+                  <button  type="submit" data-mdb-button-init
+                    data-mdb-ripple-init class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">S'inscrire</button>
+                </div>
+
+                <p class="text-center text-muted mt-5 mb-0">Avez vous un compte? <a routerLink="/login"
+                    class="fw-bold text-body"><u>Se connecter</u></a></p>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

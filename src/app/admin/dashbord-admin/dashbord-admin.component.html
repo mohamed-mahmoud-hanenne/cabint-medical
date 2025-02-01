@@ -1,0 +1,99 @@
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" routerLink="/admin">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">Admin Cabinet</div>
+    </a>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item active">
+      <a class="nav-link" routerLink="admin">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">Interface</div>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="users">
+        <i class="fas fa-users"></i>
+        <span>Utilisateurs</span>
+      </a>
+      <hr class="sidebar-divider">
+
+      <a class="nav-link" routerLink="patients">
+        <i class="fas fa-user-injured"></i>
+        <span>Patients</span>
+      </a>
+      <hr class="sidebar-divider">
+
+      <a class="nav-link" routerLink="rendezvous">
+        <i class="fas fa-calendar-check"></i>
+        <span>Rendez Vous</span>
+      </a>
+      <hr class="sidebar-divider">
+
+      <a class="nav-link" routerLink="fiche">
+        <i class="fas fa-file-medical"></i>
+        <span>Fiche Medicale</span>
+      </a>
+      <hr class="sidebar-divider">
+
+      <a class="nav-link" routerLink="prestation">
+        <i class="fas fa-briefcase-medical"></i>
+        <span>Prestations</span>
+      </a>
+      <hr class="sidebar-divider">
+
+      <a class="nav-link" routerLink="salles">
+        <i class="fas fa-procedures"></i>
+        <span>Salles</span>
+      </a>
+      <hr class="sidebar-divider">
+      
+      <a class="nav-link" routerLink="paiements">
+        <i class="fas fa-money-bill-wave"></i>
+        <span>Paiements</span>
+    </a>
+    </li>
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <div class="input-group">
+      <input type="text" class="form-control bg-light border-0 small" placeholder="Rechercher..." aria-label="Search" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item dropdown no-arrow mx-1">
+      <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <span class="badge badge-danger badge-counter">3+</span>
+      </a>
+    </li>
+    <li class="nav-item dropdown no-arrow">
+      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin Name</span>
+        <img class="img-profile rounded-circle" src="img/admin_profile.svg">
+      </a>
+    </li>
+  </ul>
+</nav>
+      <div class="container-fluid">
+        <h1 class="h3 mb-0 text-gray-800">Bienvenue Admin</h1>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
