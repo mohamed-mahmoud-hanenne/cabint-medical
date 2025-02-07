@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
 import { error } from 'console';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-patients',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.scss'
 })
