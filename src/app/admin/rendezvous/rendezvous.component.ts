@@ -29,7 +29,7 @@ export class RendezvousComponent implements OnInit{
         this.patients = data
       },
       (error) =>{
-        console.error('Erreur de chargement des patients', error);
+        console.error('Erreur de chargement des rendez vous', error);
       }
     )
   }

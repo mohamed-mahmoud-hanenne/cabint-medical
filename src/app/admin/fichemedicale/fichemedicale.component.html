@@ -1,122 +1,35 @@
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-<hr>
-<div class="container bootstrap snippets bootdey">
+
+<div class="container">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="main-box no-header clearfix">
-                <div class="main-box-body clearfix">
-                    <div class="table-responsive">
-                        <table class="table user-list">
+        <div class="col-12 col-sm-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Fiche Medicale</h4>
+                </div>
+    
+                <div class="col-md-6">
+                    <div class="flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                        <button class="btn btn-success mb-3" (click)="openMedicalRecordForm()">➕ Ajouter</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; overflow: hidden; outline: none;">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
-                                <th><span>User</span></th>
-                                <th><span>Created</span></th>
-                                <th class="text-center"><span>Status</span></th>
-                                <th><span>Email</span></th>
-                                <th>&nbsp;</th>
+                                    <th>Patient id</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr  *ngFor="let fiche of fiches">
+                                    <td class="table-img">{{ fiche.patient?.id || 'Non attribué' }}</td>
+                                    <td>{{fiche.description}}</td>
+
                                     <td>
-                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">
-                                        <a href="#" class="user-link">Full name 1</a>
-                                        <span class="user-subhead">Member</span>
-                                    </td>
-                                    <td>2013/08/12</td>
-                                    <td class="text-center">
-                                        <span class="label label-default">pending</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">marlonbrando.com</a>
-                                    </td>
-                                    <td style="width: 20%;">
-                                        <a href="#" class="table-link text-warning">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link text-info">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link danger">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://bootdey.com/img/Content/user_3.jpg" alt="">
-                                        <a href="#" class="user-link">Full name 2</a>
-                                        <span class="user-subhead">Admin</span>
-                                    </td>
-                                    <td>2013/08/12</td>
-                                    <td class="text-center">
-                                        <span class="label label-success">Active</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">marlonbrando.com</a>
-                                    </td>
-                                    <td style="width: 20%;">
-                                        <a href="#" class="table-link  text-warning">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link  text-info">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link danger">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="https://bootdey.com/img/Content/user_2.jpg" alt="">
-                                        <a href="#" class="user-link">Full name 3</a>
-                                        <span class="user-subhead">Member</span>
-                                    </td>
-                                    <td>2013/08/12</td>
-                                    <td class="text-center">
-                                        <span class="label label-danger">inactive</span>
-                                    </td>
-                                    <td>
-                                        <a href="#">marlonbrando.com</a>
-                                    </td>
-                                    <td style="width: 20%;">
-                                        <a href="#" class="table-link  text-warning">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link  text-info">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-                                        <a href="#" class="table-link danger">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
+                                        <button data-toggle="tooltip" title="" data-original-title="Edit" class="btn btn-warning" (click)="openMedicalRecordForm(fiche)"><i class="fas fa-pencil-alt"></i></button>
+                                        <button data-toggle="tooltip" title="" data-original-title="Delete" class="btn btn-danger btn-sm" (click)="fiche.id ? deleteFiche(fiche.id) : null"><i class="far fa-trash-alt"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -126,4 +39,4 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
