@@ -5,73 +5,37 @@
           <div class="row justify-content-center">
             <div class="col-12">
               <div class="table-responsive bg-white">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h4>Salles</h4>
+                  <div>   
+                      <button class="btn btn-success" (click)="openSalleForm()">➕ Ajouter</button>
+                  </div>
+              </div>
+              <hr>
                 <table class="table mb-0">
                   <thead>
                     <tr>
-                      <th scope="col">EMPLOYEES</th>
-                      <th scope="col">POSITION</th>
-                      <th scope="col">CONTACTS</th>
-                      <th scope="col">AGE</th>
-                      <th scope="col">ADDRESS</th>
-                      <th scope="col">SALARY</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Nombre machines</th>
+                      <th scope="col">Nombre Lits</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Tiger Nixon</th>
-                      <td>System Architect</td>
-                      <td>tnixon12example.com</td>
-                      <td>61</td>
-                      <td>Edinburgh</td>
-                      <td>$320,800</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Sonya Frost</th>
-                      <td>Software Engineer</td>
-                      <td>sfrost34example.com</td>
-                      <td>23</td>
-                      <td>Edinburgh</td>
-                      <td>$103,600</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Jena Gaines</th>
-                      <td>Office Manager</td>
-                      <td>jgaines75example.com</td>
-                      <td>30</td>
-                      <td>London</td>
-                      <td>$90,560</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Quinn Flynn</th>
-                      <td>Support Lead</td>
-                      <td>qflyn09example.com</td>
-                      <td>22</td>
-                      <td>Edinburgh</td>
-                      <td>$342,000</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Charde Marshall</th>
-                      <td>Regional Director</td>
-                      <td>cmarshall28example.com</td>
-                      <td>36</td>
-                      <td>San Francisco</td>
-                      <td>$470,600</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Haley Kennedy</th>
-                      <td>Senior Marketing Designer</td>
-                      <td>hkennedy63example.com</td>
-                      <td>43</td>
-                      <td>London</td>
-                      <td>$313,500</td>
-                    </tr>
-                    <tr>
-                      <th scope="row" style="color: #666666;">Tatyana Fitzpatrick</th>
-                      <td>Regional Director</td>
-                      <td>tfitzpatrick00example.com</td>
-                      <td>19</td>
-                      <td>Warsaw</td>
-                      <td>$385,750</td>
+                    <tr *ngFor="let salle of salles">
+                      <td>{{salle.nom}}</td>
+                      <td>{{salle.nombreMachines}}</td>
+                      <td>{{salle.nombreLits}}</td>
+
+                      <td>
+                        <button type="button" class="btn btn-danger btn-sm px-3" (click)="salle.id ? deleteSalle(salle.id) : null">
+                          <i class="fas fa-times"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-warning btn-sm px-3" (click)="openSalleForm(salle)">
+                          <i class="fas fa-pencil-alt"></i>
+                        </button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

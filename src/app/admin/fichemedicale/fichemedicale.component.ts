@@ -6,6 +6,8 @@ import { PatientService } from '../../services/patient.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-fichemedicale',
@@ -21,6 +23,11 @@ export class FichemedicaleComponent {
     constructor(private ficheService: FichemedicaleService, 
                 private patientService: PatientService
     ){}
+
+    ngOnInit(): void {
+      this.getFiches();
+      this.getPatient();
+    }
   
     getPatient(){
       this.patientService.getAllPatients().subscribe(
@@ -28,7 +35,7 @@ export class FichemedicaleComponent {
           this.patients = data
         },
         (error) =>{
-          console.error('Erreur de chargement des fiche medicale', error);
+          console.error('Erreur de chargement des patients', error);
         }
       )
     }
@@ -40,15 +47,10 @@ export class FichemedicaleComponent {
           console.log(this.ficheService)
         },
         (error) => {
-          console.error('Erreur de chargement des patients', error);
+          console.error('Erreur de chargement des fiches medicales', error);
         }
       )
     }
-    ngOnInit(): void {
-      this.getFiches();
-      this.getPatient();
-    }
-  
   
  
     openMedicalRecordForm(ficheMedicale: Fichemedicale = { 
@@ -137,8 +139,6 @@ export class FichemedicaleComponent {
   
   
   
-  
-  
       deleteFiche(id:number){
         if(id === undefined) return;
         Swal.fire({
@@ -158,4 +158,37 @@ export class FichemedicaleComponent {
           }
         })
       }
+
+
+      downloadFichePDF() {
+        const doc = new jsPDF();
+      
+        // Titre du PDF
+        doc.setFontSize(18);
+        doc.text('Liste des Fiches Médicales', 10, 10);
+      
+        // Ajout des colonnes
+        const columns = ['Patient ID', 'Description'];
+        const rows: any[] = [];
+      
+        // Remplir les lignes avec les données des fiches
+        this.fiches.forEach((fiche) => {
+          rows.push([
+            fiche.patient?.id || 'Non attribué',
+            fiche.description || 'Pas de description'
+          ]);
+        });
+      
+        // Ajouter les données dans un tableau au PDF
+        (doc as any).autoTable({
+          head: [columns],
+          body: rows,
+          startY: 20, // Position de début
+          styles: { fontSize: 10 }
+        });
+      
+        // Sauvegarder le PDF
+        doc.save('Fiches_Medicales.pdf');
+      }
+      
 }
