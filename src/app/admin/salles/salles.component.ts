@@ -5,16 +5,20 @@ import { error } from 'console';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-salles',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule, NgxPaginationModule],
   templateUrl: './salles.component.html',
   styleUrl: './salles.component.scss'
 })
 export class SallesComponent implements OnInit{
 
-  salles: Salle[] = []
+  salles: Salle[] = [];
+  currentPage: number = 1; // Page actuelle
+  itemsPerPage: number = 6; // Nombre d'éléments par page
+  Math = Math;
   constructor(private salleService: SallesService){}
 
   ngOnInit(): void {

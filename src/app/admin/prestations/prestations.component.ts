@@ -4,16 +4,20 @@ import { PrestationService } from '../../services/prestation.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-prestations',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule, NgxPaginationModule],
   templateUrl: './prestations.component.html',
   styleUrl: './prestations.component.scss'
 })
 export class PrestationsComponent {
 
     prestations: Prestation[] = [];
+    currentPage: number = 1; // Page actuelle
+    itemsPerPage: number = 6; // Nombre d'éléments par page
+    Math = Math;
     constructor(private prestationService: PrestationService){}
   
     ngOnInit(): void {

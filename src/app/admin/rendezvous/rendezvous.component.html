@@ -4,7 +4,7 @@
     <div class="col-12 col-sm-12 col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4>Paiements</h4>
+                <h4>Rendez vous <span class="text-muted fw-normal ms-2">({{rendezvous.length}})</span></h4>
                 <div>
             
                     <button class="btn btn-success" (click)="openRendezVousForm()">➕ Ajouter</button>
@@ -23,19 +23,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr  *ngFor="let rendez of rendezvous">
+                            <tr  *ngFor="let rendez of rendezvous | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                                 <td class="table-img">{{ rendez.patient?.id || 'Non attribué' }}</td>
                                 <td>{{rendez.date}}</td>
                                 <td class="text-truncate">{{rendez.heure}}</td>
                                 <td>{{rendez.statut}}</td>
                                 <td>
-                                    <button data-toggle="tooltip" title="" data-original-title="Edit" class="btn btn-warning" (click)="openRendezVousForm(rendez)"><i class="fas fa-pencil-alt"></i></button>
+                                    <button data-toggle="tooltip" title="" data-original-title="Edit" class="btn btn-warning me-3" (click)="openRendezVousForm(rendez)"><i class="fas fa-pencil-alt"></i></button>
                                     <button data-toggle="tooltip" title="" data-original-title="Delete" class="btn btn-danger btn-sm" (click)="rendez.id ? deleteRendez(rendez.id) : null"><i class="far fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
+        <hr>
+        <!-- Pagination Controls -->
+        <div class="d-flex justify-content-between align-items-center mt-1">
+            <p class="mb-0">
+              Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage, rendezvous.length) }}
+              sur {{ rendezvous.length }} rendez vous
+            </p>
+            <pagination-controls (pageChange)="currentPage = $event" class="pagination justify-content-end"></pagination-controls>
+          </div>
             </div>
         </div>
     </div>

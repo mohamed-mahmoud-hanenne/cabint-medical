@@ -4,25 +4,32 @@ import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-utilisateurs',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,NgxPaginationModule],
   templateUrl: './utilisateurs.component.html',
   styleUrl: './utilisateurs.component.scss'
 })
 export class UtilisateursComponent implements OnInit{
   users: User[] = [];
+  currentPage: number = 1; // Page actuelle
+  itemsPerPage: number = 8; // Nombre d'éléments par page
+  Math = Math;
   constructor(private userService: UtilisateursService){}
 
   ngOnInit(): void {
     this.getUsers();
+    console.log('Page actuelle:', this.currentPage); // Vérifiez si la page actuelle est bien définie
+    console.log('Éléments par page:', this.itemsPerPage);
   }
 
   getUsers(){
     this.userService.getAllUsers().subscribe(
       (data:User[]) => {
         this.users = data;
+        console.log('Utilisateurs chargés:', this.users);
       },
       (error) => {
         console.error('Erreur de chargement des utilisateurs', error);

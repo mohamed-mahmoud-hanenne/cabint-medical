@@ -10,11 +10,15 @@ import { PatientsComponent } from './admin/patients/patients.component';
 import { FichemedicaleComponent } from './admin/fichemedicale/fichemedicale.component';
 import { SallesComponent } from './admin/salles/salles.component';
 import { PrestationsComponent } from './admin/prestations/prestations.component';
+import { authGuard } from './services/auth.guard';
+
 export const routes: Routes = [
     { path: 'register', component:RegisterComponent},
     { path: 'login', component: LoginComponent},
+
     { 
         path: 'admin', component: DashbordAdminComponent, 
+        canActivate: [authGuard], // Protection de la route admin
         children: [
             { path: 'users', component: UtilisateursComponent }, //Route enfant
             { path: 'rendezvous', component: RendezvousComponent } ,
@@ -26,7 +30,21 @@ export const routes: Routes = [
 
         ]
     },
-    { path: 'secretaire', component: DashbordSecretaireComponent},
-    { path: 'rendezvous', component: RendezvousComponent},
+
+    { 
+        path: 'secretaire', component: DashbordSecretaireComponent,
+        canActivate: [authGuard], // Protection de la route secretaire
+        children: [
+            { path: 'rendezvous', component: RendezvousComponent } ,
+        ]
+
+    },
+
+     {
+        path: '',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+      },
+
+
     { path: '', redirectTo:'/login', pathMatch: 'full'}
 ];

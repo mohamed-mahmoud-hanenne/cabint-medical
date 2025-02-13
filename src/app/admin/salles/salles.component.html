@@ -1,48 +1,60 @@
 <section class="intro">
-    <div class="gradient-custom-1 h-100">
-      <div class="mask d-flex align-items-center h-100">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="table-responsive bg-white">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h4>Salles</h4>
-                  <div>   
-                      <button class="btn btn-success" (click)="openSalleForm()">➕ Ajouter</button>
-                  </div>
+  <div class="gradient-custom-1 h-100">
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="table-responsive bg-white">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h4>Salles <span class="text-muted fw-normal ms-2">({{salles.length}})</span></h4>
+                <div>
+                  <button class="btn btn-success" (click)="openSalleForm()">➕ Ajouter</button>
+                </div>
               </div>
               <hr>
-                <table class="table mb-0">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Nombre machines</th>
-                      <th scope="col">Nombre Lits</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let salle of salles">
-                      <td>{{salle.nom}}</td>
-                      <td>{{salle.nombreMachines}}</td>
-                      <td>{{salle.nombreLits}}</td>
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Nombre machines</th>
+                    <th scope="col">Nombre Lits</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let salle of salles | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                    <td>{{salle.nom}}</td>
+                    <td>{{salle.nombreMachines}}</td>
+                    <td>{{salle.nombreLits}}</td>
 
-                      <td>
-                        <button type="button" class="btn btn-danger btn-sm px-3" (click)="salle.id ? deleteSalle(salle.id) : null">
-                          <i class="fas fa-times"></i>
-                        </button>
+                    <td>
+                      <button type="button" class="btn btn-danger btn-sm px-3 me-3"
+                        (click)="salle.id ? deleteSalle(salle.id) : null">
+                        <i class="fas fa-times"></i>
+                      </button>
 
-                        <button type="button" class="btn btn-warning btn-sm px-3" (click)="openSalleForm(salle)">
-                          <i class="fas fa-pencil-alt"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                      <button type="button" class="btn btn-warning btn-sm px-3" (click)="openSalleForm(salle)">
+                        <i class="fas fa-pencil-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <p class="mb-0">
+                Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage,
+                salles.length) }}
+                sur {{ salles.length }} utilisateurs
+              </p>
+              <pagination-controls (pageChange)="currentPage = $event"
+                class="pagination justify-content-end"></pagination-controls>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

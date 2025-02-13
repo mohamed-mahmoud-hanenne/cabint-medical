@@ -8,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-fichemedicale',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule, NgxPaginationModule],
   templateUrl: './fichemedicale.component.html',
   styleUrl: './fichemedicale.component.scss'
 })
@@ -19,6 +20,9 @@ export class FichemedicaleComponent {
 
   fiches: Fichemedicale[] = [];
     patients: Patient[] = [];
+    currentPage: number = 1; // Page actuelle
+    itemsPerPage: number = 6; // Nombre d'éléments par page
+    Math = Math;
   
     constructor(private ficheService: FichemedicaleService, 
                 private patientService: PatientService

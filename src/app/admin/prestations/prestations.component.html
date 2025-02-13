@@ -1,56 +1,70 @@
 <section class="intro">
-    <div class="bg-image h-100">
-      <div class="mask d-flex align-items-center h-100">
-        <div class="container">
-          
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h4>Prestations</h4>
-                      <div>   
-                          <button class="btn btn-success" (click)="openPrestationForm()">➕ Ajouter</button>
-                      </div>
+  <div class="bg-image h-100">
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <div class="card shadow-2-strong" style="background-color: #f5f7fa;">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4>Prestations <span class="text-muted fw-normal ms-2">({{prestations.length}})</span></h4>
+                    <div>
+                      <button class="btn btn-success" (click)="openPrestationForm()">➕ Ajouter</button>
+                    </div>
                   </div>
-                    <table class="table table-borderless mb-0">
-                      <thead>
-                        <tr>
-                          <th scope="col">
+                  <table class="table table-borderless mb-0">
+                    <thead>
+                      <tr>
+                        <!-- <th scope="col">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                             </div>
-                          </th>
-                          <th scope="col">Nom</th>
-                          <th scope="col">Type</th>
-                          <th scope="col">Tarif</th>
-                          <th scope="col">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let prestation of prestations">
-                          <th scope="row">
+                          </th> -->
+                        <th scope="col">Nom</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Tarif</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let prestation of prestations | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                        <!-- <th scope="row">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked/>
                             </div>
-                          </th>
-                          <td>{{prestation.nom}}</td>
-                          <td>{{prestation.type}}</td>
-                          <td>{{prestation.tarif}}</td>
-                          <td>
-                            <button type="button" class="btn btn-danger btn-sm px-3" (click)="prestation.id ? deletePrestation(prestation.id) : null">
-                              <i class="fas fa-times"></i>
-                            </button>
+                          </th> -->
+                        <td>{{prestation.nom}}</td>
+                        <td>{{prestation.type}}</td>
+                        <td>{{prestation.tarif}}</td>
+                        <td>
+                          <button type="button" class="btn btn-danger btn-sm px-3 me-3"
+                            (click)="prestation.id ? deletePrestation(prestation.id) : null">
+                            <i class="fas fa-times"></i>
+                          </button>
 
-                            <button type="button" class="btn btn-warning btn-sm px-3" (click)="openPrestationForm(prestation)">
-                              <i class="fas fa-pencil-alt"></i>
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                          <button type="button" class="btn btn-warning btn-sm px-3"
+                            (click)="openPrestationForm(prestation)">
+                            <i class="fas fa-pencil-alt"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <hr>
+                <!-- Pagination Controls -->
+                <div class="d-flex justify-content-between align-items-center mt-1">
+                  <p class="mb-0">
+                    Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage,
+                    prestations.length) }}
+                    sur {{ prestations.length }} prestations
+                  </p>
+                  <pagination-controls (pageChange)="currentPage = $event"
+                    class="pagination justify-content-end"></pagination-controls>
                 </div>
               </div>
             </div>
@@ -58,4 +72,5 @@
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

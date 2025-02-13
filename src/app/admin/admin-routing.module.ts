@@ -8,11 +8,13 @@ import { PatientsComponent } from './patients/patients.component';
 import { FichemedicaleComponent } from './fichemedicale/fichemedicale.component';
 import { PrestationsComponent } from './prestations/prestations.component';
 import { SallesComponent } from './salles/salles.component';
+import { authGuard } from '../services/auth.guard';
 
 const routes: Routes = [
     { path: 'users', component: UtilisateursComponent},
+        
         { 
-            path: 'admin', component: DashbordAdminComponent, 
+            path: 'admin', component: DashbordAdminComponent, canActivate: [authGuard],
             children: [
                 { path: 'users', component: UtilisateursComponent }, // Route enfant
                 { path: 'rendezvous', component: RendezvousComponent },
@@ -24,6 +26,11 @@ const routes: Routes = [
                  
             ]
         },
+
+        {
+            path: 'login',
+            loadChildren: () => import('../auth/auth.module').then(m => m.AuthModule),
+          },
 ];
 
 @NgModule({

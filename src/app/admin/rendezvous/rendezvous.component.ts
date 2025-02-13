@@ -7,10 +7,11 @@ import { Patient } from '../../models/patient';
 import { PatientService } from '../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-rendezvous',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './rendezvous.component.html',
   styleUrl: './rendezvous.component.scss'
 })
@@ -18,6 +19,9 @@ export class RendezvousComponent implements OnInit{
 
   rendezvous: RendezVous[] = [];
   patients: Patient[] = [];
+  currentPage: number = 1; // Page actuelle
+  itemsPerPage: number = 5; // Nombre d'éléments par page
+  Math = Math;
 
   constructor(private rendezService: RendezvousService, 
               private patientService: PatientService

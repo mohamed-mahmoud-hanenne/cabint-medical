@@ -6,26 +6,33 @@ import { error } from 'console';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-patients',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgxPaginationModule],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.scss'
 })
 export class PatientsComponent implements OnInit{
 
-  patients: Patient[] = []
+  patients: Patient[] = [];
+  currentPage: number = 1; // Page actuelle
+  itemsPerPage: number = 5; // Nombre d'éléments par page
+  Math = Math;
   constructor(private patientService: PatientService){}
 
   ngOnInit(): void {
-    this.getPatient()
+    this.getPatient();
+    console.log('Page actuelle:', this.currentPage); // Vérifiez si la page actuelle est bien définie
+    console.log('Éléments par page:', this.itemsPerPage);
   }
 
   getPatient(){
     this.patientService.getAllPatients().subscribe(
       (data:Patient[]) =>{
-        this.patients = data
+        this.patients = data;
+        console.log('Patients chargés:', this.patients);
       },
       (error) =>{
         console.error('Erreur de chargement des patients', error);

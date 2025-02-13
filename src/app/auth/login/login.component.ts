@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   userlogin = {login:'', password:''};
   message: string = '';
+  token: string = '';
 
   constructor(private authService: AuthService, private router: Router){}
 
@@ -21,6 +22,10 @@ export class LoginComponent {
       next: (res) => {
         console.log("Réponse du backend :", res);
 
+        // Sauvegarder le token dans localStorage
+        this.authService.saveToken(res.token);
+
+        // Rediriger en fonction du rôle
         if(res.role === 'admin'){
           this.router.navigate(['admin']);
         } else if(res.role === 'secretaire'){

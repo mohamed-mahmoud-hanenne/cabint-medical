@@ -2,8 +2,8 @@
 
 <div class="container bootstrap snippets bootdey">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>Patients</h4>
-        <div>   
+        <h4>Patients <span class="text-muted fw-normal ms-2">({{patients.length}})</span></h4>
+        <div>
             <button class="btn btn-success" (click)="openPatientForm()">➕ Ajouter</button>
         </div>
     </div>
@@ -16,28 +16,40 @@
                         <table class="table user-list">
                             <thead>
                                 <tr>
-                                <th><span>Nom</span></th>
-                                <th><span>Prénom</span></th>
-                                <th class="text-center"><span>Adresse</span></th>
-                                <th><span>Téléphone</span></th>
-                                <th><span>Actions</span></th>
+                                    <th><span>Nom</span></th>
+                                    <th><span>Prénom</span></th>
+                                    <th class="text-center"><span>Adresse</span></th>
+                                    <th><span>Téléphone</span></th>
+                                    <th><span>Actions</span></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let patient of patients">
+                                <tr *ngFor="let patient of patients | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                                     <td>{{patient.nom}}</td>
                                     <td>{{patient.prenom}}</td>
                                     <td class="text-center">{{patient.adresse}}</td>
                                     <td>{{patient.telephone}}</td>
 
-                                      <td style="width: 20%;"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             >
-                                    <button class="btn btn-primary btn-sm" (click)="openPatientForm(patient)"><i class="bx bx-pencil font-size-18"></i></button>
-                                    <button class="btn btn-danger btn-sm" (click)="patient.id ? deletePatient(patient.id) : null">🗑</button>
-                                  </td>
+                                    <td style="width: 20%;">
+                                        <button class="btn btn-primary btn-sm me-3" (click)="openPatientForm(patient)"><i
+                                                class="bx bx-pencil font-size-18"></i></button>
+                                        <button class="btn btn-danger btn-sm"
+                                            (click)="patient.id ? deletePatient(patient.id) : null">🗑</button>
+                                    </td>
                                 </tr>
-                             
+
                             </tbody>
                         </table>
+                    </div>
+                    <!-- Pagination Controls -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <p class="mb-0">
+                            Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à
+                            {{ Math.min(currentPage * itemsPerPage, patients.length) }} sur {{ patients.length }}
+                            patients
+                        </p>
+                        <pagination-controls (pageChange)="currentPage = $event"
+                            class="pagination justify-content-end"></pagination-controls>
                     </div>
                 </div>
             </div>

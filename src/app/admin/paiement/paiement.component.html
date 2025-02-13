@@ -4,9 +4,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4>Paiements</h4>
+                        <h4>Paiements <span class="text-muted fw-normal ms-2">({{paiements.length}})</span></h4>
                         <div>
-                            <button class="btn btn-primary me-2" (click)="downloadPaiementsPDF()">📄 Télécharger</button>
+                            <button class="btn btn-primary me-2" (click)="downloadPaiementsPDF()">📄
+                                Télécharger</button>
                             <button class="btn btn-success" (click)="openPaiementForm()">➕ Ajouter</button>
                         </div>
                     </div>
@@ -21,21 +22,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let paiement of paiements">
+                                <tr
+                                    *ngFor="let paiement of paiements | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                                     <td>{{ paiement.patient?.id || 'Non attribué' }}</td>
                                     <td>{{paiement.montant}}</td>
                                     <td>{{paiement.date}}</td>
-                                     <td>
-                                            <button data-toggle="tooltip" title="" data-original-title="Edit" class="btn btn-warning" (click)="openPaiementForm(paiement)"><i class="fas fa-pencil-alt"></i></button>
-                                            <button data-toggle="tooltip" title="" data-original-title="Delete" class="btn btn-danger btn-sm" (click)="paiement.id ? deletePaiement(paiement.id) : null"><i class="far fa-trash-alt"></i></button>
+                                    <td>
+                                        <button data-toggle="tooltip" title="" data-original-title="Edit"
+                                            class="btn btn-warning btn-sm me-3" (click)="openPaiementForm(paiement)"><i
+                                                class="fas fa-pencil-alt"></i></button>
+                                        <button data-toggle="tooltip" title="" data-original-title="Delete"
+                                            class="btn btn-danger btn-sm"
+                                            (click)="paiement.id ? deletePaiement(paiement.id) : null"><i
+                                                class="far fa-trash-alt"></i></button>
                                     </td>
-                                    
+
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <!--end table-responsive-->
-                    <div class="pt-3 border-top text-right"><a href="#" class="text-primary">View all <i class="mdi mdi-arrow-right"></i></a></div>
+
+                    <!-- Pagination Controls -->
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <p class="mb-0">
+                            Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage *
+                            itemsPerPage, paiements.length) }}
+                            sur {{ paiements.length }} utilisateurs
+                        </p>
+                        <pagination-controls (pageChange)="currentPage = $event"
+                            class="pagination justify-content-end"></pagination-controls>
+                    </div>
                 </div>
             </div>
         </div>
