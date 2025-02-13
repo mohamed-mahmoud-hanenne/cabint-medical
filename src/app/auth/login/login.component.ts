@@ -27,7 +27,7 @@ export class LoginComponent {
 
         // Rediriger en fonction du rôle
         if(res.role === 'admin'){
-          this.router.navigate(['admin']);
+          this.router.navigate(['admin/statis']);
         } else if(res.role === 'secretaire'){
           this.router.navigate(['secretaire'])
         }

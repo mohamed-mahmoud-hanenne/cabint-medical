@@ -40,12 +40,12 @@
                         <td>{{prestation.type}}</td>
                         <td>{{prestation.tarif}}</td>
                         <td>
-                          <button type="button" class="btn btn-danger btn-sm px-3 me-3"
+                          <button type="button" class="btn btn-danger btn-sm me-3"
                             (click)="prestation.id ? deletePrestation(prestation.id) : null">
-                            <i class="fas fa-times"></i>
+                            <i class="far fa-trash-alt"></i>
                           </button>
 
-                          <button type="button" class="btn btn-warning btn-sm px-3"
+                          <button type="button" class="btn btn-warning btn-sm"
                             (click)="openPrestationForm(prestation)">
                             <i class="fas fa-pencil-alt"></i>
                           </button>

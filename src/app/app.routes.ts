@@ -11,6 +11,7 @@ import { FichemedicaleComponent } from './admin/fichemedicale/fichemedicale.comp
 import { SallesComponent } from './admin/salles/salles.component';
 import { PrestationsComponent } from './admin/prestations/prestations.component';
 import { authGuard } from './services/auth.guard';
+import { StatisticsComponent } from './admin/statistics/statistics.component';
 
 export const routes: Routes = [
     { path: 'register', component:RegisterComponent},
@@ -20,6 +21,7 @@ export const routes: Routes = [
         path: 'admin', component: DashbordAdminComponent, 
         canActivate: [authGuard], // Protection de la route admin
         children: [
+            { path: 'statis', component: StatisticsComponent },
             { path: 'users', component: UtilisateursComponent }, //Route enfant
             { path: 'rendezvous', component: RendezvousComponent } ,
             { path: 'paiements', component: PaiementComponent },

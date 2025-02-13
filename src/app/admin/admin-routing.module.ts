@@ -9,6 +9,7 @@ import { FichemedicaleComponent } from './fichemedicale/fichemedicale.component'
 import { PrestationsComponent } from './prestations/prestations.component';
 import { SallesComponent } from './salles/salles.component';
 import { authGuard } from '../services/auth.guard';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
     { path: 'users', component: UtilisateursComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
         { 
             path: 'admin', component: DashbordAdminComponent, canActivate: [authGuard],
             children: [
+                { path: 'statis', component: StatisticsComponent },
                 { path: 'users', component: UtilisateursComponent }, // Route enfant
                 { path: 'rendezvous', component: RendezvousComponent },
                 { path: 'paiements', component: PaiementComponent },

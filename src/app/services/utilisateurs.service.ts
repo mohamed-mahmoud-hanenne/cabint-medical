@@ -12,7 +12,7 @@ export class UtilisateursService {
 
   constructor(private http: HttpClient) { }
 
-  getAllUsers(): Observable<User[]>{
+getAllUsers(): Observable<User[]>{
     return this.http.get<User[]>(`${this.apiUrl}/allusers`);
   }
 

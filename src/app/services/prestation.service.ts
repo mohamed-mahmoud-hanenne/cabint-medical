@@ -14,8 +14,12 @@ export class PrestationService {
       getAllPrestations(): Observable<Prestation[]> {
         return this.http.get<Prestation[]>(`${this.apiUrl}/allprestation`);
       }
-    
-    
+
+      getPrestationStatistics(): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/statistics`);
+      }
+
+
       addPrestation(prestation: Prestation) : Observable<Prestation>{
         return this.http.post<Prestation>(`${this.apiUrl}/addprestation`, prestation);
       }

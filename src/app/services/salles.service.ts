@@ -14,6 +14,11 @@ export class SallesService {
         getAllSalles(): Observable<Salle[]> {
           return this.http.get<Salle[]>(`${this.apiUrl}/allsalle`);
         }
+
+        getSalleStatistics(): Observable<any> {
+          return this.http.get<any>(`${this.apiUrl}/statistics`);
+        }
+        
       
       
         addSalle(salle: Salle) : Observable<Salle>{

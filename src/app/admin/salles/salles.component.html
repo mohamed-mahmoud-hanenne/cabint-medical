@@ -28,12 +28,12 @@
                     <td>{{salle.nombreLits}}</td>
 
                     <td>
-                      <button type="button" class="btn btn-danger btn-sm px-3 me-3"
+                      <button type="button" class="btn btn-danger btn-sm me-3"
                         (click)="salle.id ? deleteSalle(salle.id) : null">
-                        <i class="fas fa-times"></i>
+                        <i class="far fa-trash-alt"></i>
                       </button>
 
-                      <button type="button" class="btn btn-warning btn-sm px-3" (click)="openSalleForm(salle)">
+                      <button type="button" class="btn btn-warning btn-sm" (click)="openSalleForm(salle)">
                         <i class="fas fa-pencil-alt"></i>
                       </button>
                     </td>
