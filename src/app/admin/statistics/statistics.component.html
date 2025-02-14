@@ -26,4 +26,37 @@
       </div>
     </div>
   </div>
+
+
+  <div class="row">
+    <!-- Graphe des Patients -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">Patients par Adresse</div>
+        <div class="card-body">
+          <div echarts [options]="patientChartOptions" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphe des Rendez-vous -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">Rendez-vous par Statut</div>
+        <div class="card-body">
+          <div echarts [options]="rendezvousChartOptions" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphe des Fiches Médicales -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header text-center">Fiches Médicales par Patient</div>
+        <div class="card-body">
+          <div echarts [options]="ficheMedicaleChartOptions" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

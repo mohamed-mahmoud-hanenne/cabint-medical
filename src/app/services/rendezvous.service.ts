@@ -15,6 +15,14 @@ export class RendezvousService {
     return this.http.get<RendezVous[]>(`${this.apiUrl}/allrendez`);
   }
 
+  getRendezVousStatistics(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/statistics`)
+  }
+
+  updateRendezVousStatut(rendezId: number, statut: string): Observable<any>{
+    return this.http.patch(`${this.apiUrl}/${rendezId}`, {statut})
+  }
+
 
   addRendezVous(rendez: RendezVous) : Observable<RendezVous>{
     return this.http.post<RendezVous>(`${this.apiUrl}/addrendez`, rendez);

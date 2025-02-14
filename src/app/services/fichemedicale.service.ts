@@ -14,6 +14,10 @@ export class FichemedicaleService {
     getAllFiche(): Observable<Fichemedicale[]> {
       return this.http.get<Fichemedicale[]>(`${this.apiUrl}/allfiche`);
     }
+
+    getFicheMedicaleStatistics(): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/statistics`)
+    }
   
   
     addFiche(fiche: Fichemedicale) : Observable<Fichemedicale>{

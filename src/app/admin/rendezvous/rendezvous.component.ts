@@ -148,8 +148,27 @@ export class RendezvousComponent implements OnInit{
 }
 
 
+     confirmRendezVous(rendezId:number, currentStatut: string): void{
+      if (currentStatut === 'Confirmé') {
+        alert('Ce rendez-vous est déjà confirmé');
+        return;
+      }
+     
+      const updatedStatut = 'Confirmé';
+      this.rendezService.updateRendezVousStatut(rendezId, updatedStatut).subscribe({
+        next : () =>{
+          Swal.fire('Modifié!', 'Le statut du rendez-vous a été mis à jour en "Confirmé" ', 'success');
+          // alert('Le statut du rendez-vous a été mis à jour en "Confirmé".');
+          this.getRendezVous();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la mise à jour du statut :', err);
+        }
+      })
+     }
 
-
+     
+   
 
     deleteRendez(id:number){
       if(id === undefined) return;
