@@ -2,7 +2,7 @@
 
 <div class="container bootstrap snippets bootdey">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>Patients <span class="text-muted fw-normal ms-2">({{patients.length}})</span></h4>
+        <h4>Patients <span class="text-muted fw-normal ms-2">({{filtredPatients.length}})</span></h4>
         <div>
             <button class="btn btn-success" (click)="openPatientForm()">➕ Ajouter</button>
         </div>
@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let patient of patients | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                <tr *ngFor="let patient of filtredPatients | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                                     <td>{{patient.nom}}</td>
                                     <td>{{patient.prenom}}</td>
                                     <td class="text-center">{{patient.adresse}}</td>
@@ -45,7 +45,7 @@
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <p class="mb-0">
                             Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à
-                            {{ Math.min(currentPage * itemsPerPage, patients.length) }} sur {{ patients.length }}
+                            {{ Math.min(currentPage * itemsPerPage, filtredPatients.length) }} sur {{ filtredPatients.length }}
                             patients
                         </p>
                         <pagination-controls (pageChange)="currentPage = $event"

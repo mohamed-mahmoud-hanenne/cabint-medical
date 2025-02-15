@@ -1,59 +1,57 @@
 <div class="container">
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-12">
-        <div class="card">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <h4>Rendez-vous <span class="text-muted fw-normal ms-2">({{rendezvous.length}})</span></h4>
-            <div>
-              <button class="btn btn-success" (click)="openRendezVousForm()">➕ Ajouter</button>
-            </div>
+  <div class="row">
+    <div class="col-12 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4>Rendez-vous <span class="text-muted fw-normal ms-2">({{filtredRendezVous.length}})</span></h4>
+          <div>
+            <button class="btn btn-success" (click)="openRendezVousForm()">➕ Ajouter</button>
           </div>
-          <div class="card-body">
-            <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; overflow: hidden; outline: none;">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>Patient ID</th>
-                    <th>Date</th>
-                    <th>Heure</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let rendez of rendezvous | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                    <td>{{ rendez.patient?.id || 'Non attribué' }}</td>
-                    <td>{{ rendez.date }}</td>
-                    <td>{{ rendez.heure }}</td>
-                    <td>{{ rendez.statut }}</td>
-                    <td>
-                      <button class="btn btn-warning btn-sm me-3" (click)="openRendezVousForm(rendez)">
-                        <i class="fas fa-pencil-alt"></i>
-                      </button>
-                      <button class="btn btn-danger btn-sm me-3" (click)="rendez.id ? deleteRendez(rendez.id) : null">
-                        <i class="fas fa-times"></i>
-                      </button>
-                      <button class="btn btn-primary btn-sm" (click)=" rendez.id ? confirmRendezVous(rendez.id, rendez.statut): null">
-                        <i class="fas fa-check"></i>
-                        
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <hr>
-            <!-- Pagination Controls -->
-            <div class="d-flex justify-content-between align-items-center mt-1">
-              <p class="mb-0">
-                Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage, rendezvous.length) }}
-                sur {{ rendezvous.length }} rendez-vous
-              </p>
-              <pagination-controls (pageChange)="currentPage = $event" class="pagination justify-content-end"></pagination-controls>
-            </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; overflow: hidden; outline: none;">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Date</th>
+                  <th>Heure</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rendez of filtredRendezVous | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                  <td>{{ rendez.patient?.nom || 'Non attribué' }} {{ rendez.patient?.prenom || '' }}</td>
+                  <td>{{ rendez.date }}</td>
+                  <td>{{ rendez.heure }}</td>
+                  <td>{{ rendez.statut }}</td>
+                  <td>
+                    <button class="btn btn-warning btn-sm me-3" (click)="openRendezVousForm(rendez)">
+                      <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm me-3" (click)="rendez.id ? deleteRendez(rendez.id) : null">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    <button class="btn btn-primary btn-sm" (click)="rendez.id ? confirmRendezVous(rendez.id, rendez.statut) : null">
+                      <i class="fas fa-check"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <hr>
+          <!-- Pagination Controls -->
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <p class="mb-0">
+              Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage, filtredRendezVous.length) }}
+              sur {{ filtredRendezVous.length }} rendez-vous
+            </p>
+            <pagination-controls (pageChange)="currentPage = $event" class="pagination justify-content-end"></pagination-controls>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-salles',
@@ -16,14 +17,38 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class SallesComponent implements OnInit{
 
   salles: Salle[] = [];
+  filtredSalles: Salle[] = [];
   currentPage: number = 1; // Page actuelle
   itemsPerPage: number = 6; // Nombre d'éléments par page
   Math = Math;
-  constructor(private salleService: SallesService){}
+  constructor(private salleService: SallesService, private searchService: SearchService){}
 
   ngOnInit(): void {
-    this.getSalles();
+    // Charger les salles
+    this.salleService.getAllSalles().subscribe((salles) => {
+      this.salles = salles;
+      this.filtredSalles = salles; // Initialiser la liste filtrée avec toutes les salles
+    });
+
+    // Écouter les modifications de recherche
+    this.searchService.currentSearch.subscribe((searchText) => {
+      this.filtredSalles = this.filterSalles(searchText);
+    });
   }
+
+       // Méthode pour filtrer les salles
+   filterSalles(searchText: string): Salle[] {
+     if (!searchText) {
+       // Si aucune recherche, retourner toutes les salles
+       return this.salles;
+     }
+ 
+     return this.salles.filter((salle) =>
+       `${salle.nom || ''} ${salle.nombreMachines || ''}`
+         .toLowerCase()
+         .includes(searchText.toLowerCase())
+     );
+   }
 
   getSalles() {
     this.salleService.getAllSalles().subscribe(
@@ -72,6 +97,7 @@ export class SallesComponent implements OnInit{
                     this.getSalles();
                     Swal.fire('Modifié!', 'Salle mise à jour.', 'success');
                 }, error => {
+                  Swal.fire('Erreur!', 'Erreur lors de la mise à jour', 'error');
                     console.error("Erreur lors de la mise à jour:", error);
                 });
             } else {
@@ -80,6 +106,7 @@ export class SallesComponent implements OnInit{
                     this.getSalles();
                     Swal.fire('Ajouté!', 'Nouvelle salle ajoutée.', 'success');
                 }, error => {
+                    Swal.fire('Erreur!', "Erreur lors de l'ajout du salle", 'error');
                     console.error("Erreur lors de l'ajout de la salle:", error);
                 });
             }

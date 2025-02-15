@@ -29,7 +29,7 @@ export class LoginComponent {
         if(res.role === 'admin'){
           this.router.navigate(['admin/statis']);
         } else if(res.role === 'secretaire'){
-          this.router.navigate(['secretaire'])
+          this.router.navigate(['secretaire/rendezvous'])
         }
 
         this.message = res.message;

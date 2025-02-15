@@ -9,7 +9,7 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4>Prestations <span class="text-muted fw-normal ms-2">({{prestations.length}})</span></h4>
+                    <h4>Prestations <span class="text-muted fw-normal ms-2">({{filteredPrestations.length}})</span></h4>
                     <div>
                       <button class="btn btn-success" (click)="openPrestationForm()">➕ Ajouter</button>
                     </div>
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                       <tr
-                        *ngFor="let prestation of prestations | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                        *ngFor="let prestation of filteredPrestations | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                         <!-- <th scope="row">
                             <div class="form-check">
                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" checked/>
@@ -60,8 +60,8 @@
                 <div class="d-flex justify-content-between align-items-center mt-1">
                   <p class="mb-0">
                     Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage,
-                    prestations.length) }}
-                    sur {{ prestations.length }} prestations
+                    filteredPrestations.length) }}
+                    sur {{ filteredPrestations.length }} prestations
                   </p>
                   <pagination-controls (pageChange)="currentPage = $event"
                     class="pagination justify-content-end"></pagination-controls>

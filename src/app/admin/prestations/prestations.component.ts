@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Prestation } from '../../models/prestation';
 import { PrestationService } from '../../services/prestation.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-prestations',
@@ -12,17 +13,43 @@ import { NgxPaginationModule } from 'ngx-pagination';
   templateUrl: './prestations.component.html',
   styleUrl: './prestations.component.scss'
 })
-export class PrestationsComponent {
+export class PrestationsComponent implements OnInit{
 
     prestations: Prestation[] = [];
+    filteredPrestations: Prestation[] = [];
     currentPage: number = 1; // Page actuelle
     itemsPerPage: number = 6; // Nombre d'éléments par page
     Math = Math;
-    constructor(private prestationService: PrestationService){}
+
+
+    constructor(private prestationService: PrestationService, private searchService: SearchService){}
   
     ngOnInit(): void {
-      this.getPrestations();
+      // Charger les prestations
+      this.prestationService.getAllPrestations().subscribe((prestations) => {
+        this.prestations = prestations;
+        this.filteredPrestations = prestations; // Initialiser la liste filtrée avec toutes les prestations
+      });
+  
+      // Écouter les modifications de recherche
+      this.searchService.currentSearch.subscribe((searchText) => {
+        this.filteredPrestations = this.filterPrestations(searchText);
+      });
     }
+
+  // Méthode pour filtrer les prestations
+  filterPrestations(searchText: string): Prestation[] {
+    if (!searchText) {
+      // Si aucune recherche, retourner toutes les prestations
+      return this.prestations;
+    }
+
+    return this.prestations.filter((prestation) =>
+      `${prestation.nom || ''} ${prestation.type || ''} ${prestation.tarif || ''}`
+        .toLowerCase()
+        .includes(searchText.toLowerCase())
+    );
+  }
   
     getPrestations(){
       this.prestationService.getAllPrestations().subscribe(
@@ -69,6 +96,7 @@ export class PrestationsComponent {
                       this.getPrestations();
                       Swal.fire('Modifié!', 'Prestation mise à jour.', 'success');
                   }, error => {
+                     Swal.fire('Erreur!', 'Erreur lors de la mise à jour', 'error');
                       console.error("Erreur lors de la mise à jour:", error);
                   });
               } else {
@@ -77,6 +105,7 @@ export class PrestationsComponent {
                       this.getPrestations();
                       Swal.fire('Ajouté!', 'Nouvelle prestation ajoutée.', 'success');
                   }, error => {
+                       Swal.fire('Erreur!', "Erreur lors de l'ajout du prestation", 'error');
                       console.error("Erreur lors de l'ajout de la prestation:", error);
                   });
               }

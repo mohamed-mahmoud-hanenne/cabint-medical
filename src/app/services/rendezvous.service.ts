@@ -15,6 +15,13 @@ export class RendezvousService {
     return this.http.get<RendezVous[]>(`${this.apiUrl}/allrendez`);
   }
 
+    // // Méthode pour récupérer les rendez-vous imminents
+    // getUpcomingRendezVous(): Observable<RendezVous[]> {
+    //   const currentDate = new Date().toISOString();
+    //   const upcomingDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(); // Prochaines 2 heures
+    //   return this.http.get<RendezVous[]>(`${this.apiUrl}?date_gte=${currentDate}&date_lte=${upcomingDate}`);
+    // }
+
   getRendezVousStatistics(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/statistics`)
   }

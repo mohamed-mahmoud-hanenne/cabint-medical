@@ -1,59 +1,53 @@
 <div class="container">
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4>Fiche Médicale <span class="text-muted fw-normal ms-2">({{fiches.length}})</span></h4>
-                    <div>
-                        <button class="btn btn-primary me-2" (click)="downloadFichePDF()">📄 Télécharger</button>
-                        <button class="btn btn-success" (click)="openMedicalRecordForm()">➕ Ajouter</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="proTeamScroll" tabindex="2"
-                        style="height: 400px; overflow: hidden; outline: none;">
-                        <table class="table table-striped" id="ficheTable">
-                            <thead>
-                                <tr>
-                                    <th>Patient ID</th>
-                                    <th>Description</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    *ngFor="let fiche of fiches | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                    <td class="table-img">{{ fiche.patient?.id || 'Non attribué' }}</td>
-                                    <td>{{fiche.description}}</td>
-                                    <td>
-                                        <button data-toggle="tooltip" title="" data-original-title="Edit"
-                                            class="btn btn-warning me-3 btn-sm" (click)="openMedicalRecordForm(fiche)">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                        <button data-toggle="tooltip" title="" data-original-title="Delete"
-                                            class="btn btn-danger btn-sm"
-                                            (click)="fiche.id ? deleteFiche(fiche.id) : null">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <hr>
-                    <!-- Pagination Controls -->
-                    <div class="d-flex justify-content-between align-items-center mt-1">
-                        <p class="mb-0">
-                            Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage *
-                            itemsPerPage, fiches.length) }}
-                            sur {{ fiches.length }} fiche medicale
-                        </p>
-                        <pagination-controls (pageChange)="currentPage = $event"
-                            class="pagination justify-content-end"></pagination-controls>
-                    </div>
-                </div>
+      <div class="col-12 col-sm-12 col-md-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4>Fiche Médicale <span class="text-muted fw-normal ms-2">({{filteredFiches.length}})</span></h4>
+            <div>
+              <button class="btn btn-primary me-2" (click)="downloadFichePDF()">📄 Télécharger</button>
+              <button class="btn btn-success" (click)="openMedicalRecordForm()">➕ Ajouter</button>
             </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive" id="proTeamScroll" tabindex="2" style="height: 400px; overflow: hidden; outline: none;">
+              <table class="table table-striped" id="ficheTable">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let fiche of filteredFiches | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                    <td>{{ fiche.patient?.nom || 'Non attribué' }} {{ fiche.patient?.prenom || '' }}</td>
+                    <td>{{fiche.description}}</td>
+                    <td>
+                      <button class="btn btn-warning me-3 btn-sm" (click)="openMedicalRecordForm(fiche)">
+                        <i class="fas fa-pencil-alt"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="fiche.id ? deleteFiche(fiche.id) : null">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+            <hr>
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <p class="mb-0">
+                Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage * itemsPerPage, filteredFiches.length) }}
+                sur {{ filteredFiches.length }} fiche(s) médicale(s)
+              </p>
+              <pagination-controls (pageChange)="currentPage = $event" class="pagination justify-content-end"></pagination-controls>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  

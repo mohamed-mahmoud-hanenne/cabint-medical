@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-fichemedicale',
@@ -19,19 +20,50 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class FichemedicaleComponent {
 
   fiches: Fichemedicale[] = [];
-    patients: Patient[] = [];
-    currentPage: number = 1; // Page actuelle
-    itemsPerPage: number = 6; // Nombre d'éléments par page
-    Math = Math;
+  filteredFiches: Fichemedicale[] = []; // Liste filtrée pour affichage
+  patients: Patient[] = [];
+  currentPage: number = 1; // Page actuelle
+  itemsPerPage: number = 6; // Nombre d'éléments par page
+  Math = Math;
   
-    constructor(private ficheService: FichemedicaleService, 
-                private patientService: PatientService
+    constructor(
+      private ficheService: FichemedicaleService,
+      private patientService: PatientService,
+      private searchService: SearchService
     ){}
 
+
     ngOnInit(): void {
-      this.getFiches();
-      this.getPatient();
+      // Charger les fiches médicales
+      this.ficheService.getAllFiche().subscribe((fiches) => {
+        this.fiches = fiches;
+        this.filteredFiches = fiches; // Initialiser la liste filtrée avec toutes les fiches
+      });
+  
+      // Charger les patients
+      this.patientService.getAllPatients().subscribe((patients) => {
+        this.patients = patients;
+      });
+  
+      // Écouter les modifications de recherche
+      this.searchService.currentSearch.subscribe((searchText) => {
+        this.filteredFiches = this.filterFiches(searchText);
+      });
+    } 
+
+      // Méthode pour filtrer les fiches médicales
+  filterFiches(searchText: string): Fichemedicale[] {
+    if (!searchText) {
+      // Si aucune recherche, retourner toutes les fiches
+      return this.fiches;
     }
+
+    return this.fiches.filter((fiche) =>
+      `${fiche.patient?.nom || ''} ${fiche.patient?.prenom || ''} ${fiche.description || ''}`
+        .toLowerCase()
+        .includes(searchText.toLowerCase())
+    );
+  }
   
     getPatient(){
       this.patientService.getAllPatients().subscribe(
@@ -126,6 +158,7 @@ export class FichemedicaleComponent {
                       this.getFiches();
                       Swal.fire('Modifié!', 'Fiche médicale mise à jour.', 'success');
                   }, error => {
+                    Swal.fire('Erreur!', 'Erreur lors de la mise à jour', 'error');
                       console.error("Erreur lors de la mise à jour:", error);
                   });
               } else {
@@ -134,6 +167,7 @@ export class FichemedicaleComponent {
                       this.getFiches();
                       Swal.fire('Ajouté!', 'Nouvelle fiche médicale ajoutée.', 'success');
                   }, error => {
+                    Swal.fire('Erreur!', "Erreur lors de l'ajout du fiche medicale", 'error');
                       console.error("Erreur lors de l'ajout de la fiche médicale:", error);
                   });
               }
@@ -172,13 +206,13 @@ export class FichemedicaleComponent {
         doc.text('Liste des Fiches Médicales', 10, 10);
       
         // Ajout des colonnes
-        const columns = ['Patient ID', 'Description'];
+        const columns = ['Patient', 'Description'];
         const rows: any[] = [];
       
         // Remplir les lignes avec les données des fiches
         this.fiches.forEach((fiche) => {
           rows.push([
-            fiche.patient?.id || 'Non attribué',
+            fiche.patient?.nom || fiche.patient?.prenom || 'Non attribué',
             fiche.description || 'Pas de description'
           ]);
         });

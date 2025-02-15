@@ -13,6 +13,7 @@ import { PrestationsComponent } from './admin/prestations/prestations.component'
 import { authGuard } from './services/auth.guard';
 import { StatisticsComponent } from './admin/statistics/statistics.component';
 
+
 export const routes: Routes = [
     { path: 'register', component:RegisterComponent},
     { path: 'login', component: LoginComponent},

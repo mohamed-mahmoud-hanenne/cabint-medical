@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4>Paiements <span class="text-muted fw-normal ms-2">({{paiements.length}})</span></h4>
+                        <h4>Paiements <span class="text-muted fw-normal ms-2">({{filtredPaiement.length}})</span></h4>
                         <div>
                             <button class="btn btn-primary me-2" (click)="downloadPaiementsPDF()">📄
                                 Télécharger</button>
@@ -15,7 +15,7 @@
                         <table class="table table-hover mb-0">
                             <thead>
                                 <tr class="align-self-center">
-                                    <th>Patient id</th>
+                                    <th>Patient</th>
                                     <th>Montant</th>
                                     <th>Date</th>
                                     <th>Actions</th>
@@ -23,8 +23,8 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    *ngFor="let paiement of paiements | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                    <td>{{ paiement.patient?.id || 'Non attribué' }}</td>
+                                    *ngFor="let paiement of filtredPaiement | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                    <td>{{ paiement.patient?.nom || 'Non attribué' }} {{ paiement.patient?.prenom || '' }}</td>
                                     <td>{{paiement.montant}}</td>
                                     <td>{{paiement.date}}</td>
                                     <td>
@@ -46,8 +46,8 @@
                     <div class="d-flex justify-content-between align-items-center mt-1">
                         <p class="mb-0">
                             Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à {{ Math.min(currentPage *
-                            itemsPerPage, paiements.length) }}
-                            sur {{ paiements.length }} utilisateurs
+                            itemsPerPage, filtredPaiement.length) }}
+                            sur {{ filtredPaiement.length }} paiements
                         </p>
                         <pagination-controls (pageChange)="currentPage = $event"
                             class="pagination justify-content-end"></pagination-controls>
