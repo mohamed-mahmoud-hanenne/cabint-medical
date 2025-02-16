@@ -97,7 +97,10 @@ export class UtilisateursComponent implements OnInit {
       if (result.isConfirmed) {
         if (user.id) {
           this.userService.updateUser(result.value, user.id).subscribe(() => {
-            this.getUsers();
+            this.userService.getAllUsers().subscribe((users) => {
+              this.users = users;
+              this.filtredUsers = users; // Initialiser filteredUsers une fois que les données sont disponibles
+            });
             Swal.fire('Modifié!', 'Utilisateur mis à jour.', 'success');
           },
             error => {
@@ -106,7 +109,10 @@ export class UtilisateursComponent implements OnInit {
             });
         } else {
           this.userService.addUser(result.value).subscribe(() => {
-            this.getUsers();
+            this.userService.getAllUsers().subscribe((users) => {
+              this.users = users;
+              this.filtredUsers = users; // Initialiser filteredUsers une fois que les données sont disponibles
+            });
             Swal.fire('Ajouté!', 'Nouvel utilisateur ajouté.', 'success');
           },
             error => {
@@ -131,7 +137,10 @@ export class UtilisateursComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.userService.deleteUser(id).subscribe(() => {
-          this.getUsers();
+          this.userService.getAllUsers().subscribe((users) => {
+            this.users = users;
+            this.filtredUsers = users; // Initialiser filteredUsers une fois que les données sont disponibles
+          });
           Swal.fire('supprimé!', 'L’utilisateur a été supprimé.', 'success');
         })
       }

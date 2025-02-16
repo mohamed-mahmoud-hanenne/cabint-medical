@@ -90,7 +90,10 @@ export class PatientsComponent implements OnInit {
       if (result.isConfirmed) {
         if (patient.id) {
           this.patientService.updatePatient(result.value, patient.id).subscribe(() => {
-            this.getPatient();
+            this.patientService.getAllPatients().subscribe((patient) => {
+              this.patients = patient;
+              this.filtredPatients = patient; // Initialiser filteredUsers une fois que les données sont disponibles
+            });
             Swal.fire('Modifié!', 'Patient mis à jour.', 'success')
           },
             error => {
@@ -99,7 +102,10 @@ export class PatientsComponent implements OnInit {
             });
         } else {
           this.patientService.addPatient(result.value).subscribe(() => {
-            this.getPatient();
+            this.patientService.getAllPatients().subscribe((patient) => {
+              this.patients = patient;
+              this.filtredPatients = patient; // Initialiser filteredUsers une fois que les données sont disponibles
+            });
             Swal.fire('Ajouté!', 'Nouvel Patient ajouté.', 'success');
           },
           error => {
@@ -125,7 +131,10 @@ export class PatientsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.patientService.deletePatient(id).subscribe(() => {
-          this.getPatient();
+          this.patientService.getAllPatients().subscribe((patient) => {
+            this.patients = patient;
+            this.filtredPatients = patient; // Initialiser filteredUsers une fois que les données sont disponibles
+          });
           Swal.fire('supprimé!', 'L’utilisateur a été supprimé.', 'success');
         })
       }

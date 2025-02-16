@@ -36,4 +36,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
   }
+
+  getAdminLogin(): string {
+    return localStorage.getItem('login') || 'Admin';
+  }
+  
 }

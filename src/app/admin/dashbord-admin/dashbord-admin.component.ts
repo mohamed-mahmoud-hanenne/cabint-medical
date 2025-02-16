@@ -1,4 +1,4 @@
-import { Component,HostListener,ViewChild  } from '@angular/core';
+import { Component,HostListener,OnInit,ViewChild  } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -26,18 +26,19 @@ import { User } from '../../models/user';
   templateUrl: './dashbord-admin.component.html',
   styleUrl: './dashbord-admin.component.scss'
 })
-export class DashbordAdminComponent {
+export class DashbordAdminComponent implements OnInit{
   activeRoute: string = '';
   private routerSubscription: Subscription;
   upcomingRendezVous: RendezVous[] = [];
   users: User[] = [];
+  adminLogin: string | null = null;
 
   constructor(
     private authService: AuthService, 
     private router: Router, 
     private searchService: SearchService,
     private rendezService: RendezvousService,
-    private userService: UtilisateursService
+    private userService: UtilisateursService,
   ) {
     // Détecter lorsque l'utilisateur quitte le dashboard
     this.routerSubscription = this.router.events.subscribe((event) => {
@@ -63,20 +64,12 @@ export class DashbordAdminComponent {
 
   }
 
-    getUsers() {
-      this.userService.getAllUsers().subscribe(
-        (data: User[]) => {
-          this.users = data;
-          console.log('Utilisateurs chargés:', this.users);
-        },
-        (error) => {
-          console.error('Erreur de chargement des utilisateurs', error);
-        }
-      );
+  ngOnInit(): void {
+    // Récupérer le login de l'admin depuis localStorage
+    this.adminLogin = localStorage.getItem('login') || 'Admin';
+    console.log('Admin Login récupéré depuis localStorage :', this.adminLogin);
+  }
   
-        // // Initialiser `filteredUsers` avec tous les utilisateurs
-        // this.filtredUsers = [...this.users];
-    } 
 
 
   checkUpcomingRendezVous(): void {
@@ -107,20 +100,33 @@ export class DashbordAdminComponent {
 
     handleNotificationClick(): void {
       if (this.upcomingRendezVous.length > 0) {
-        // Exemple : Afficher les rendez-vous imminents dans une alerte
-        this.upcomingRendezVous.forEach((rendez) => {
+        // Construire une liste HTML des rendez-vous imminents
+        const rendezVousList = this.upcomingRendezVous.map(
+          (rendez) => `
+            <li>
+              <strong>${rendez.patient?.nom || rendez.patient?.prenom || 'Un patient'}</strong> - 
+              ${rendez.date} à ${rendez.heure}
+            </li>
+          `
+        ).join('');
+    
         Swal.fire({
-        title: 'Rendez-vous imminent',
-        text: `Rendez-vous avec ${rendez.patient?.nom || 'un patient'} à ${rendez.heure}`,
-        icon: 'info',
-        timer: 10000 // Affiche la notification pendant 10 secondes
-      });
-          // alert(`Rendez-vous imminent : ${rendez.patient?.nom || 'un patient'}, à ${rendez.heure}`);
+          title: 'Rendez-vous imminents',
+          html: `<ul style="text-align: left;">${rendezVousList}</ul>`, // Affiche la liste formatée
+          icon: 'info',
+          timer: 15000, // Affiche la notification pendant 15 secondes
+          showCloseButton: true, // Ajouter un bouton pour fermer la fenêtre
         });
       } else {
-        console.log('Aucune notification.');
+        Swal.fire({
+          title: 'Aucune notification',
+          text: 'Il n’y a pas de rendez-vous imminent.',
+          icon: 'info',
+          timer: 5000, // Affiche la notification pendant 5 secondes
+        });
       }
     }
+    
     
 
 
@@ -128,6 +134,7 @@ export class DashbordAdminComponent {
   // Méthode appelée lorsque l'utilisateur clique sur "Déconnexion"
   onLogout() {
     this.authService.logout(); // Supprimer le token
+    localStorage.removeItem('login'); // Supprimer le login
     this.router.navigate(['/login']); // Rediriger vers la page de connexion
   }
 

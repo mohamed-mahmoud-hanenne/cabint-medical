@@ -50,18 +50,18 @@ export class PaiementComponent {
   }
 
   filterPaiement(searchText: string): Paiement[] {
-      if (!searchText) {
-        // Si le texte de recherche est vide, afficher tous les paiements
-        return this.paiements;
-      }
-  
-      // Filtrer les paiement par patient (nom/prénom) ou montant
-      return this.paiements.filter((paiement) =>
-        `${paiement.patient?.nom || ''} ${paiement.patient?.prenom || ''} ${paiement.montant || ''}`
-          .toLowerCase()
-          .includes(searchText.toLowerCase())
-      );
+    if (!searchText) {
+      // Si le texte de recherche est vide, afficher tous les paiements
+      return this.paiements;
     }
+
+    // Filtrer les paiement par patient (nom/prénom) ou montant
+    return this.paiements.filter((paiement) =>
+      `${paiement.patient?.nom || ''} ${paiement.patient?.prenom || ''} ${paiement.montant || ''}`
+        .toLowerCase()
+        .includes(searchText.toLowerCase())
+    );
+  }
 
   getPatients() {
     this.patientService.getAllPatients().subscribe(
@@ -101,7 +101,7 @@ export class PaiementComponent {
       title: paiement.id ? 'Modifier Paiement' : 'Ajouter Paiement',
       html: `
                 <input id="montant" type="number" step="0.01" class="swal2-input" placeholder="Montant" value="${paiement.montant}">
-                <input id="date" class="swal2-input" placeholder="Date (AAAA-MM-JJ)" value="${paiement.date}">
+                <input id="date" type="date" class="swal2-input" placeholder="Date (AAAA-MM-JJ)" value="${paiement.date}">
                 ${this.patients.length > 0 ? `
                     <select id="patient" class="swal2-input">
                         ${patientsOptions}
@@ -150,7 +150,16 @@ export class PaiementComponent {
         if (paiement.id) {
           // 🔄 Modification d'un paiement existant
           this.paiementService.updatePaiement(paiementData, paiement.id).subscribe(() => {
-            this.getPaiements();
+            // Récupérer tous les paiements
+            this.paiementService.getAllPaiement().subscribe((paiement) => {
+              this.paiements = paiement;
+              this.filtredPaiement = paiement; // Initialiser la liste filtrée avec tous les paiement
+            });
+
+            // Récupérer tous les patients pour le formulaire
+            this.patientService.getAllPatients().subscribe((patients) => {
+              this.patients = patients;
+            });
             Swal.fire('Modifié!', 'Paiement mis à jour.', 'success');
           }, error => {
             Swal.fire('Erreur!', 'Erreur lors de la mise à jour', 'error');
@@ -159,7 +168,16 @@ export class PaiementComponent {
         } else {
           // ➕ Ajout d'un nouveau paiement
           this.paiementService.addPaiement(paiementData).subscribe(() => {
-            this.getPaiements();
+            // Récupérer tous les paiements
+            this.paiementService.getAllPaiement().subscribe((paiement) => {
+              this.paiements = paiement;
+              this.filtredPaiement = paiement; // Initialiser la liste filtrée avec tous les paiement
+            });
+
+            // Récupérer tous les patients pour le formulaire
+            this.patientService.getAllPatients().subscribe((patients) => {
+              this.patients = patients;
+            });
             Swal.fire('Ajouté!', 'Nouveau paiement ajouté.', 'success');
           }, error => {
             Swal.fire('Erreur!', "Erreur lors de l'ajout du paiement", 'error');
@@ -185,7 +203,16 @@ export class PaiementComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.paiementService.deletePaiement(id).subscribe(() => {
-          this.getPaiements();
+          // Récupérer tous les paiements
+          this.paiementService.getAllPaiement().subscribe((paiement) => {
+            this.paiements = paiement;
+            this.filtredPaiement = paiement; // Initialiser la liste filtrée avec tous les paiement
+          });
+
+          // Récupérer tous les patients pour le formulaire
+          this.patientService.getAllPatients().subscribe((patients) => {
+            this.patients = patients;
+          });
           Swal.fire('supprimé!', 'Paiement a été supprimé.', 'success');
         })
       }
